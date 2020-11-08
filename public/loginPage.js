@@ -1,29 +1,24 @@
 "use strict";
-let dataAutorization = autorizationCheck;
-let dataRegister = registerCheck;
 const userForm = new UserForm();
-userForm.loginFormCallback = dataAutorization;
+userForm.loginFormCallback = autorizationCheck;
 userForm.registerFormCallback = registerCheck;
 
 function autorizationCheck(data) {
     ApiConnector.login(data, response => {
-        let callback = response;
-        if (callback.success) {
+        if (response.success) {
             location.reload();
         } else {
-            alert(callback.error);
+            userForm.setLoginErrorMessage(response.error)
         }
     });
 }
 
 function registerCheck(data) {
     ApiConnector.register(data, response => {
-        let callback = response;
-        console.log(callback);
-        if (callback.success) {
+        if (response.success) {
             location.reload();
         } else {
-            alert(callback.error);
+            userForm.setRegisterErrorMessage(response.error)
         }
     });
 }
